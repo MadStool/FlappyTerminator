@@ -41,7 +41,7 @@ public class Bullet : MonoBehaviour
         {
             if (other.TryGetComponent<Health>(out Health health))
             {
-                health.TakeDamage(_damage, transform);
+                health.TakeDamage(_damage);
                 ReturnToPool();
             }
         }
