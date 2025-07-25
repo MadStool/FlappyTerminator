@@ -8,6 +8,7 @@ public class EnemyShooting : MonoBehaviour
     [SerializeField] private float _shootInterval = 2f;
     [SerializeField] private float _initialDelay = 1f;
     [SerializeField] private bool _flipBulletSprite = true;
+    [SerializeField] private LayerMask _bulletTargetLayer;
 
     private IBulletProvider _bulletProvider;
     private float _timer;
@@ -24,8 +25,8 @@ public class EnemyShooting : MonoBehaviour
 
     private void Update()
     {
-        if (_bulletProvider == null)
-             return;
+        if (enabled == false || _bulletProvider == null)
+            return;
 
         _timer += Time.deltaTime;
 
@@ -40,8 +41,8 @@ public class EnemyShooting : MonoBehaviour
     {
         Bullet bullet = _bulletProvider.GetBullet();
 
-        if (bullet == null) 
-             return;
+        if (bullet == null)
+            return;
 
         bullet.transform.SetPositionAndRotation(
             _firePoint.position,
@@ -53,6 +54,6 @@ public class EnemyShooting : MonoBehaviour
             renderer.flipX = true;
         }
 
-        bullet.Configure(false, Vector2.left);
+        bullet.Configure(_bulletTargetLayer, Vector2.left);
     }
 }

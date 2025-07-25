@@ -6,22 +6,18 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float _speed = 10f;
     [SerializeField] private float _lifetime = 3f;
     [SerializeField] private int _damage = 100;
+    [SerializeField] private LayerMask _targetLayer;
 
+    private Vector3 _originalScale;
     private Vector2 _direction;
     private IBulletProvider _bulletProvider;
     private float _deathTime;
-    private bool _isPlayerBullet;
+    private Camera _mainCamera;
 
-    public void Initialize(IBulletProvider provider)
+    private void Awake()
     {
-        _bulletProvider = provider;
-    }
-
-    public void Configure(bool playerBullet, Vector2 direction)
-    {
-        _isPlayerBullet = playerBullet;
-        _direction = direction.normalized;
-        _deathTime = Time.time + _lifetime;
+        _mainCamera = Camera.main;
+        _originalScale = transform.localScale;
     }
 
     private void OnEnable()
@@ -39,37 +35,43 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (((1 << other.gameObject.layer) & _targetLayer) != 0)
+        {
+            if (other.TryGetComponent<Health>(out Health health))
+            {
+                health.TakeDamage(_damage, transform);
+                ReturnToPool();
+            }
+        }
+    }
+
+    public void Initialize(IBulletProvider provider)
+    {
+        _bulletProvider = provider;
+    }
+
+    public void Configure(LayerMask targetLayer, Vector2 direction)
+    {
+        _targetLayer = targetLayer;
+        _direction = direction.normalized;
+    }
+
     private bool IsVisibleFromCamera()
     {
-        var camera = Camera.main;
-
-        if (camera == null) 
+        if (_mainCamera == null)
             return false;
 
-        var viewportPos = camera.WorldToViewportPoint(transform.position);
+        var viewportPos = _mainCamera.WorldToViewportPoint(transform.position);
 
         return viewportPos.x >= -0.1f && viewportPos.x <= 1.1f &&
                viewportPos.y >= -0.1f && viewportPos.y <= 1.1f;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (_isPlayerBullet && other.TryGetComponent<Player>(out var playerComponent))
-            return;
-
-        if (_isPlayerBullet == false && other.TryGetComponent<Enemy>(out var enemyComponent))
-            return;
-
-        if (other.TryGetComponent<Health>(out Health health))
-        {
-            health.TakeDamage(_damage, transform);
-            ReturnToPool();
-        }
-    }
-
     private void ReturnToPool()
     {
-        transform.localScale = Vector3.one;
+        transform.localScale = _originalScale;
 
         if (TryGetComponent<SpriteRenderer>(out var renderer))
         {

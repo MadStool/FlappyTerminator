@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2898820704307681245}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 1239494947741013712}
   - component: {fileID: 6049494795556892568}
   - component: {fileID: 2477454116275019787}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Green Enemy 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,10 @@ MonoBehaviour:
   _firePoint: {fileID: 2898820704307681245}
   _shootInterval: 2
   _initialDelay: 1
-  _flipBulletSprite: 1
+  _flipBulletSprite: 0
+  _bulletTargetLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &841528978332178952
 MonoBehaviour:
   m_ObjectHideFlags: 0

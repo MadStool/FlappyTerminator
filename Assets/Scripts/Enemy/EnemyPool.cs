@@ -1,39 +1,17 @@
 using UnityEngine;
-using System.Collections.Generic;
 
-public class EnemyPool : MonoBehaviour
+public class EnemyPool : Pool<Enemy>
 {
-    [SerializeField] private Enemy _enemyPrefab;
-    [SerializeField] private int _poolSize = 10;
     [SerializeField] private float _spawnInterval = 2f;
     [SerializeField] private Vector2 _spawnAreaSize = new Vector2(5f, 3f);
     [SerializeField] private BulletPool _bulletPool;
 
-    private List<Enemy> _enemyPool;
     private float _timer;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _enemyPool = new List<Enemy>();
-
-        for (int i = 0; i < _poolSize; i++)
-        {
-            Enemy enemy = Instantiate(_enemyPrefab, GetRandomSpawnPosition(), Quaternion.identity);
-            enemy.gameObject.SetActive(false);
-
-            EnemyShooting shooting = enemy.GetComponent<EnemyShooting>();
-
-            if (shooting != null)
-            {
-                shooting.Initialize(_bulletPool);
-            }
-            else
-            {
-                Debug.LogError("Enemy prefab missing EnemyShooting component!", enemy);
-            }
-
-            _enemyPool.Add(enemy);
-        }
+        base.Awake();
+        InitializeEnemies();
     }
 
     private void Update()
@@ -47,20 +25,24 @@ public class EnemyPool : MonoBehaviour
         }
     }
 
+    private void InitializeEnemies()
+    {
+        foreach (Enemy enemy in _pool)
+        {
+            EnemyShooting shooting = enemy.GetComponent<EnemyShooting>();
+            if (shooting != null)
+                 shooting.Initialize(_bulletPool);
+        }
+    }
+
     private void TrySpawnEnemy()
     {
-        foreach (Enemy enemy in _enemyPool)
+        Enemy enemy = GetItem();
+
+        if (enemy != null)
         {
-            if (enemy.gameObject.activeInHierarchy == false)
-            {
-                enemy.transform.position = GetRandomSpawnPosition();
-                enemy.gameObject.SetActive(true);
-
-                return;
-            }
+            enemy.transform.position = GetRandomSpawnPosition();
         }
-
-        Debug.Log("Пул переполнен! Все враги активны.");
     }
 
     private Vector3 GetRandomSpawnPosition()

@@ -303,9 +303,8 @@ GameObject:
   m_Component:
   - component: {fileID: 309334826}
   - component: {fileID: 309334825}
-  - component: {fileID: 309334827}
   m_Layer: 0
-  m_Name: PoolBullet
+  m_Name: PoolBulletPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -323,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe6a3bf4e8d68e42a3943e619bed176, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 6922782821389310379, guid: 21b3bae6f530241459856a5a14cd01e2, type: 3}
+  _prefab: {fileID: 5724092354065470942, guid: 93ee47862d46a894baf1a7dc081d7118, type: 3}
   _poolSize: 20
 --- !u!4 &309334826
 Transform:
@@ -340,19 +339,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &309334827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 309334824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d96acb7747893240a77de3fe35d57d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _bulletPool: {fileID: 309334825}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +485,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 585446045}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,7 +609,7 @@ GameObject:
   - component: {fileID: 962089148}
   - component: {fileID: 962089150}
   - component: {fileID: 962089149}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -761,6 +747,9 @@ MonoBehaviour:
   _shootCooldown: 0.5
   _bulletPool: {fileID: 309334825}
   _continuousFire: 1
+  _bulletTargetLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &962089146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1016,11 +1005,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02f75fc52af949e4b956ece7839c4538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyPrefab: {fileID: 841528978332178952, guid: 18379fac4f59e5049a1d9e42997741d0, type: 3}
+  _prefab: {fileID: 841528978332178952, guid: 18379fac4f59e5049a1d9e42997741d0, type: 3}
   _poolSize: 10
   _spawnInterval: 2
   _spawnAreaSize: {x: 4.29, y: 9.67}
-  _bulletPool: {fileID: 309334825}
+  _bulletPool: {fileID: 2091848829}
 --- !u!4 &1934206203
 Transform:
   m_ObjectHideFlags: 0
@@ -1036,6 +1025,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2091848828
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2091848830}
+  - component: {fileID: 2091848829}
+  m_Layer: 0
+  m_Name: PoolBulletEnemy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2091848829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091848828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfe6a3bf4e8d68e42a3943e619bed176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 3419703190632092970, guid: 57807ebbb748bdb4abd8641a601ca167, type: 3}
+  _poolSize: 20
+--- !u!4 &2091848830
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2091848828}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.94441414, y: 0.29286513, z: 0.007360114}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1045,4 +1080,5 @@ SceneRoots:
   - {fileID: 1396485382}
   - {fileID: 962089144}
   - {fileID: 1934206203}
+  - {fileID: 2091848830}
   - {fileID: 309334826}

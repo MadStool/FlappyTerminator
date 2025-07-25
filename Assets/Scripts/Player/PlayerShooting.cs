@@ -8,6 +8,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private float _shootCooldown = 0.5f;
     [SerializeField] private BulletPool _bulletPool;
     [SerializeField] private bool _continuousFire = true;
+    [SerializeField] private LayerMask _bulletTargetLayer;
 
     private IBulletProvider _bulletProvider;
     private float _lastShootTime;
@@ -25,8 +26,8 @@ public class PlayerShooting : MonoBehaviour
 
     private void Update()
     {
-        if (_bulletProvider == null) 
-             return;
+        if (_bulletProvider == null)
+            return;
 
         bool fireInput = _continuousFire ?
             Input.GetKey(KeyCode.E) :
@@ -38,8 +39,8 @@ public class PlayerShooting : MonoBehaviour
 
     private void TryShoot()
     {
-        if (Time.time - _lastShootTime < _shootCooldown) 
-             return;
+        if (Time.time - _lastShootTime < _shootCooldown)
+            return;
 
         _lastShootTime = Time.time;
         Shoot();
@@ -49,15 +50,14 @@ public class PlayerShooting : MonoBehaviour
     {
         Bullet bullet = _bulletProvider.GetBullet();
 
-        if (bullet == null) 
-             return;
+        if (bullet == null)
+            return;
 
         bullet.transform.SetPositionAndRotation(
             _firePoint.position,
             _firePoint.rotation
         );
 
-        bullet.Initialize(_bulletProvider);
-        bullet.Configure(true, transform.right * transform.localScale.x);
+        bullet.Configure(_bulletTargetLayer, transform.right * transform.localScale.x);
     }
 }
